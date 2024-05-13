@@ -1,0 +1,36 @@
+secret id : fe6e4497-0b22-4514-9038-bec855d86b02
+secret_value: s6S8Q~9RzfE_2R1eXemjdSoPL2IETxLvDgeTXcHs
+client_id: 8a32c160-850a-45d1-bdc0-0436e5d45aa3
+tenant_id: f6bdcdd0-e86d-439f-b4dc-a428f9cb5159
+admin@M365x329075.onmicrosoft.com
+
+import requests
+import json
+import pandas as pd
+import io
+import yaml
+##vfXqd1mEUX
+##token_url = "https://login.microsoftonline.com/"+config['directory_id']+"/oauth2/v2.0/token"
+#Contoso
+token_url = "https://login.microsoftonline.com/f6bdcdd0-e86d-439f-b4dc-a428f9cb5159/oauth2/v2.0/token"
+##payload = "client_id="+config['client_id']+"&client_secret="+config['client_secret']+"&grant_type=client_credentials&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default&undefined="
+payload = "client_id=8a32c160-850a-45d1-bdc0-0436e5d45aa3&client_secret=s6S8Q~9RzfE_2R1eXemjdSoPL2IETxLvDgeTXcHs&grant_type=client_credentials&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default&undefined="
+
+def token_generator(token_url):
+    headers = {
+    'content-type': "application/x-www-form-urlencoded",
+    'cache-control': "no-cache"
+    }
+    response = requests.request("POST", token_url,data=payload , headers=headers)
+    head = {"content-type": "application/x-www-form-urlencoded",'cache-control': "no-cache","Authorization": str(response.json()["token_type"]+" "+response.json()["access_token"])}
+    return head
+    
+head = token_generator(token_url)
+
+
+sp  = requests.get(url='https://graph.microsoft.com/v1.0/sites/contoso.sharepoint.com',headers=head)
+sp  = pd.read_csv(io.StringIO(sp.text))
+
+
+appsUsage  = requests.get(url='https://graph.microsoft.com/v1.0/reports/getEmailActivityUserDetail(period=%27D180%27)',headers=head)
+appsUsage  = pd.read_csv(io.StringIO(appsUsage.text))
