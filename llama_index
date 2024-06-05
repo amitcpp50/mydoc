@@ -1,9 +1,3 @@
-secret id : fe6e4497-0b22-4514-9038-bec855d86b02
-secret_value: s6S8Q~9RzfE_2R1eXemjdSoPL2IETxLvDgeTXcHs
-client_id: 8a32c160-850a-45d1-bdc0-0436e5d45aa3
-tenant_id: f6bdcdd0-e86d-439f-b4dc-a428f9cb5159
-admin@M365x329075.onmicrosoft.com
-
 import requests
 import json
 import pandas as pd
